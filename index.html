@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>DomNodeConnection</title>
+  <style>
+    #content{
+      width:100%;
+      height:800px;
+      display: flex;
+    }
+    ul{
+      list-style: none;
+    }
+    li{
+      border:1px solid rgb(0, 132, 255);
+      padding:18px;
+      width:200px;
+    }
+    .ul{
+      flex:1;
+    }
+  </style>
+</head>
+<body>
+  <div id="content" style="background-color: bisque">
+    <ul class="ul">
+      <li>1- node 1</li>
+      <li>1- node 2</li>
+      <li>1- node 3</li>
+      <li>1- node 4</li>
+      <li>1- node 5</li>
+    </ul>
+    <ul class="ul">
+      <li>2- node 1</li>
+      <li>2- node 2</li>
+      <li>2- node 3</li>
+      <li>2- node 4</li>
+      <li>2- node 5</li>
+    </ul>
+  </div>
+
+  <script src="dist/index.js"></script>
+  <script>
+    let a = new DomNodeConnection({
+      container:'content'
+    })
+  </script>
+</body>
+</html>
