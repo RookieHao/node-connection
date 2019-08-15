@@ -1,52 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>DomNodeConnection</title>
   <style>
-    #content{
-      width:100%;
-      height:800px;
+    body,
+    div,
+    ul,
+    li {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      border: 5px solid transparent;
+    }
+
+    #mk-wrap {
+      width: 100%;
+      height: 800px;
       display: flex;
+      padding: 10px;
     }
-    ul{
+
+    ul {
       list-style: none;
+      padding: 10px;
     }
-    li{
-      border:1px solid rgb(0, 132, 255);
-      padding:18px;
-      width:200px;
+
+    li {
+      padding: 10px;
     }
-    .ul{
-      flex:1;
+
+    [class*=mk-group] {
+      border: 1px solid rgb(0, 132, 255);
+      padding: 20px;
+      width: 200px;
+      margin-bottom: 15px;
+      /* border:none; */
+    }
+
+    .ul {
+      flex: 1;
+    }
+  </style>
+
+  <style>
+    .mk-span-dot {
+      position: absolute;
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #564123;
+    }
+
+    .mk-span-dot:hover {
+      box-shadow: 0 0 2px 1px #af2345;
     }
   </style>
 </head>
+
 <body>
-  <div id="content" style="background-color: bisque">
-    <ul class="ul">
-      <li>1- node 1</li>
-      <li>1- node 2</li>
-      <li>1- node 3</li>
-      <li>1- node 4</li>
-      <li>1- node 5</li>
-    </ul>
-    <ul class="ul">
-      <li>2- node 1</li>
-      <li>2- node 2</li>
-      <li>2- node 3</li>
-      <li>2- node 4</li>
-      <li>2- node 5</li>
-    </ul>
-  </div>
+    <div id="mk-wrap" style="background-color: bisque">
+      <ul class="ul">
+        <li>
+          <div class="mk-aaa mk-group1"><div> 1- node 1</div> </div>
+          <div class="mk-group1">1- node 2</div>
+        </li>
+        <li>
+          <div class="mk-group1">1- node 3</div>
+          <div class="mk-group1">1- node 4</div>
+          <div class="mk-group1">1- node 5</div>
+        </li>
+      </ul>
+      <ul class="ul">
+        <li>
+          <div class="mk-group2">2- node 1</div>
+          <div class="mk-group2">2- node 2</div>
+        </li>
+        <li>
+          <div class="mk-group2">2- node 3</div>
+          <div class="mk-group2">2- node 4</div>
+          <div class="mk-group2">2- node 5</div>
+        </li>
+      </ul>
+    </div>
 
   <script src="dist/index.js"></script>
-  <script>
-    let a = new DomNodeConnection({
-      container:'content'
-    })
-  </script>
 </body>
+
 </html>

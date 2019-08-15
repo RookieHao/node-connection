@@ -8,6 +8,7 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "noImplicitAny": true,
+    "downlevelIteration": true,
     "target": "ES5",
     "allowJs": true,
     "strict": true,
