@@ -47,11 +47,25 @@
     private endNode: HTMLElement | null = null;
     private canvasContext: CanvasRenderingContext2D | null = null;
     private [MOUSEDOWN]: boolean = false;
+
     constructor(options?: OptionsType) {
       this.options = Object.assign(defaultValue, options);
-
       this.init();
+      let startNode:HTMLElement | null = null
+      Object.defineProperties(this,{
+        startNode:{
+          get () {
+            console.log('get',startNode)
+            return startNode
+          },
+          set (v) {
+            console.log('set',v)
+            startNode = v
+          }
+        }
+      })
     }
+
 
     private init() {
       this[INIT_CONTAINER](); // 指定容器
@@ -93,7 +107,7 @@
         canvas.height = containerHeight;
         canvas.style.position = "absolute";
         canvas.style.background = "transparent";
-        canvas.style.zIndex = "0";
+        canvas.style.zIndex = "-1";
         canvas.style.left = "0";
         canvas.style.right = "0";
         canvas.style.top = "0";
@@ -126,7 +140,7 @@
         const nodes = Array.prototype.slice.call(this.nodes);
         for (let node of nodes) {
           // 1.生成连线节点
-          this[GENERATE_DOT](node);
+          // this[GENERATE_DOT](node);
           // 2.给节点添加点击事件
           this[CLICK_EVENT](node)
         }
@@ -216,8 +230,6 @@
             startPos,
             this.endNode
           );
-          console.log(startPos,[this.startNode])
-          console.log(endPos,[this.endNode])
           this.canvasContext.moveTo(startPos.x, startPos.y);
           this.canvasContext.lineTo(endPos.x, endPos.y);
           this.canvasContext.stroke()
@@ -289,70 +301,118 @@
           y: nodeY - this.containerOffsetY + nodeHeight / 2
         }
       };
-      let startDot = dots[9];
-      console.log(startDot,nodeX,nodeY)
+      let dotPos = this.PosSum(dots[9],9);
       const isCenter =
-        Math.abs(mousePos.x - startDot.x) <= nodeWidth / 4 &&
-        Math.abs(mousePos.y - startDot.y) <= nodeHeight / 4;
+        Math.abs(mousePos.x - dotPos.x) <= nodeWidth / 4 &&
+        Math.abs(mousePos.y - dotPos.y) <= nodeHeight / 4;
       const isRight =
         !isCenter &&
-        mousePos.x > startDot.x &&
-        Math.abs(mousePos.y - startDot.y) <= nodeHeight / 4;
+        mousePos.x > dotPos.x &&
+        Math.abs(mousePos.y - dotPos.y) <= nodeHeight / 4;
       const isLeft =
         !isCenter &&
-        mousePos.x < startDot.x &&
-        Math.abs(mousePos.y - startDot.y) <= nodeHeight / 4;
+        mousePos.x < dotPos.x &&
+        Math.abs(mousePos.y - dotPos.y) <= nodeHeight / 4;
       const isTop =
         !isCenter &&
-        mousePos.y > startDot.y &&
-        Math.abs(mousePos.x - startDot.x) <= nodeWidth / 4;
+        mousePos.y > dotPos.y &&
+        Math.abs(mousePos.x - dotPos.x) <= nodeWidth / 4;
       const isBottom =
         !isCenter &&
-        mousePos.y < startDot.y &&
-        Math.abs(mousePos.x - startDot.x) <= nodeWidth / 4;
+        mousePos.y < dotPos.y &&
+        Math.abs(mousePos.x - dotPos.x) <= nodeWidth / 4;
       const isRightTop =
-        !isRight && mousePos.x > startDot.x && mousePos.y < startDot.y;
+        !isRight && mousePos.x > dotPos.x && mousePos.y < dotPos.y;
       const isRightBottom =
-        !isRight && mousePos.x > startDot.x && mousePos.y > startDot.y;
+        !isRight && mousePos.x > dotPos.x && mousePos.y > dotPos.y;
       const isLeftTop =
-        !isLeft && mousePos.x < startDot.x && mousePos.y < startDot.y;
+        !isLeft && mousePos.x < dotPos.x && mousePos.y < dotPos.y;
       const isLeftBottom =
-        !isLeft && mousePos.x < startDot.x && mousePos.y > startDot.y;
+        !isLeft && mousePos.x < dotPos.x && mousePos.y > dotPos.y;
         // console.log({
         //   isCenter,isRight,isLeft,isTop,isBottom,isRightTop,isRightBottom,isLeftTop,isLeftBottom
         // })
+      // switch (true) {
+      //   case isCenter: // 在中心点
+      //     break;
+      //   case isLeftTop:
+      //     dotPos = this.PosSum(dots[1],1);
+      //     break;
+      //   case isLeft:
+      //     dotPos = this.PosSum(dots[2],2);
+      //     break;
+      //   case isLeftBottom:
+      //     dotPos = this.PosSum(dots[3],3);
+      //     break;
+      //     case isBottom:
+      //     dotPos = this.PosSum(dots[4],4);
+      //     break;
+      //   case isRightBottom:
+      //     dotPos = this.PosSum(dots[5],5);
+      //     break;
+      //   case isRight:
+      //     dotPos = this.PosSum(dots[6],6);
+      //     break;
+      //   case isRightTop:
+      //     dotPos = this.PosSum(dots[7],7);
+      //     break;
+      //   case isTop:
+      //     dotPos = this.PosSum(dots[8],8);
+      //     break;
+      //   default:
+      //     dotPos = this.PosSum(dots[9],9);
+      //     break;
+      // }
       switch (true) {
         case isCenter: // 在中心点
           break;
         case isLeftTop:
-          startDot = dots[1];
+          dotPos = this.PosSum(dots[2],2);
           break;
         case isLeft:
-          startDot = dots[2];
+          dotPos = this.PosSum(dots[2],2);
           break;
         case isLeftBottom:
-          startDot = dots[3];
+          dotPos = this.PosSum(dots[2],2);
           break;
-        case isBottom:
-          startDot = dots[4];
+          case isBottom:
+          dotPos = this.PosSum(dots[4],4);
           break;
         case isRightBottom:
-          startDot = dots[5];
+          dotPos = this.PosSum(dots[6],6);
           break;
         case isRight:
-          startDot = dots[6];
+          dotPos = this.PosSum(dots[6],6);
           break;
         case isRightTop:
-          startDot = dots[7];
+          dotPos = this.PosSum(dots[6],6);
           break;
         case isTop:
-          startDot = dots[8];
+          dotPos = this.PosSum(dots[8],8);
           break;
         default:
-          startDot = dots[9];
+          dotPos = this.PosSum(dots[9],9);
           break;
       }
-      return startDot;
+      return dotPos;
+    }
+
+    // 对象的属性相加
+    private PosSum(pos:pos,index:number):pos{
+      let {x:x1,y:y1} = pos
+      let x2 = 0
+      let y2 = 0
+      if(index in this.options.dotOffset){
+        x2 = this.options.dotOffset[index].x
+        y2 = this.options.dotOffset[index].y
+      }else{
+        x2 = this.options.dotOffset.x
+        y2 = this.options.dotOffset.y
+      }
+      return {
+        x:x1+x2,
+        y:y1+y2
+      }
     }
   }
 
@@ -362,7 +422,7 @@
     groupID: "", // 节点分组groupID ，默认是class分组
     dataKey: "", // 节点关联数据的key
     dot: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    dotOffset: { 1: { top: 1, left: 1, right: 1, bottom: 1 } },
+    dotOffset: { x: 0, y: 0 } ,
     mode: "click"
   };
 
@@ -372,7 +432,7 @@
     groupID: false | string;
     dataKey: string | number;
     dot: Array<D>;
-    dotOffset: { [propName: number]: offsetType };
+    dotOffset: offsetType;
     dotClass?: string;
     mode: "click" | "move";
   }
@@ -380,10 +440,9 @@
   type D = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
   type offsetType = {
-    top: number;
-    left: number;
-    right: number;
-    bottom: number;
+    x: number;
+    y: number;
+    [ propName:number ]: offsetType
   };
 
   type pos = {

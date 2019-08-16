@@ -23,6 +23,17 @@
       display: flex;
       padding: 10px;
     }
+    #mk-wrap::after{
+      content:'';
+      display: block;
+      position: absolute;
+      left:0;
+      right:0;
+      top:0;
+      bottom: 0;
+      z-index: -5;
+      background: bisque;
+    }
 
     ul {
       list-style: none;
@@ -53,7 +64,7 @@
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background: #564123;
+      background: bisque;
     }
 
     .mk-span-dot:hover {
@@ -63,7 +74,7 @@
 </head>
 
 <body>
-    <div id="mk-wrap" style="background-color: bisque">
+    <div id="mk-wrap" >
       <ul class="ul">
         <li>
           <div class="mk-aaa mk-group1"><div> 1- node 1</div> </div>
